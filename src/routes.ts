@@ -23,8 +23,8 @@ export const routes: IRoute[] = [
     ],
   },
   {
-    name: 'Example',
-    key: 'example',
+    name: 'react主应用',
+    key: 'reactmain',
   },
 ];
 

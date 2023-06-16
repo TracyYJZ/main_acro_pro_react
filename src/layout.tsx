@@ -30,7 +30,7 @@ function getIconFromKey(key) {
   switch (key) {
     case 'dashboard':
       return <IconDashboard className={styles.icon} />;
-    case 'example':
+    case 'reactmain':
       return <IconTag className={styles.icon} />;
     default:
       return <div className={styles['icon-empty']} />;
