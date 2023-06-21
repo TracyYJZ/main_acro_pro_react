@@ -26,6 +26,10 @@ export const routes: IRoute[] = [
     name: 'react主应用',
     key: 'reactmain',
   },
+  {
+    name: 'vue子应用',
+    key: 'child/vue',
+  },
 ];
 
 export const getName = (path: string, routes) => {

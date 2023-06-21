@@ -16,6 +16,7 @@ import checkLogin from './utils/checkLogin';
 import changeTheme from './utils/changeTheme';
 import useStorage from './utils/useStorage';
 import './mock';
+import { registerMicroApps, start } from 'qiankun';
 
 const store = createStore(rootReducer);
 
@@ -67,7 +68,9 @@ function Index() {
   };
 
   return (
-    <BrowserRouter>
+    <BrowserRouter
+      basename={window.__POWERED_BY_QIANKUN__ ? '/app-react' : '/'}
+    >
       <ConfigProvider
         locale={getArcoLocale()}
         componentConfig={{
@@ -95,4 +98,51 @@ function Index() {
   );
 }
 
-ReactDOM.render(<Index />, document.getElementById('root'));
+registerMicroApps([
+  {
+    name: 'reactApp',
+    entry: '//localhost:3000',
+    container: '#reactapp',
+    activeRule: '/',
+  },
+  {
+    name: 'vueApp',
+    entry: '//localhost:3001',
+    container: '#vueapp',
+    activeRule: '/',
+  },
+]);
+// 启动 qiankun
+// start();
+
+function render(props) {
+  const { container } = props;
+  ReactDOM.render(
+    <Index />,
+    container
+      ? container.querySelector('#root')
+      : document.querySelector('#root')
+  );
+}
+
+if (!window.__POWERED_BY_QIANKUN__) {
+  render({});
+}
+
+export async function bootstrap() {
+  console.log('[react16] react app bootstraped');
+}
+
+export async function mount(props) {
+  console.log('[react16] props from main framework', props);
+  render(props);
+}
+
+export async function unmount(props) {
+  const { container } = props;
+  ReactDOM.unmountComponentAtNode(
+    container
+      ? container.querySelector('#root')
+      : document.querySelector('#root')
+  );
+}
